@@ -1,73 +1,81 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# nest-udp-adapter
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+[![NPM version][npm-image]][npm-url]
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
-
-## Description
-
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+> A Nest UDP adapter based on @nestjs/websockets
 
 ## Installation
 
-```bash
-$ yarn install
-```
-
-## Running the app
+To begin using it, we first install the required dependency.
 
 ```bash
-# development
-$ yarn run start
-
-# watch mode
-$ yarn run start:dev
-
-# production mode
-$ yarn run start:prod
+$ npm install --save @nestjs/websockets nest-udp-adapter 
 ```
 
-## Test
+## Getting started
 
-```bash
-# unit tests
-$ yarn run test
+Once the installation is complete, we can set up UDP adapter using `useWebSocketAdapter()` method:
 
-# e2e tests
-$ yarn run test:e2e
-
-# test coverage
-$ yarn run test:cov
+```typescript
+const app = await NestFactory.create(AppModule);
+app.useWebSocketAdapter(new UdpAdapter(app, {
+  type: 'udp4',
+  port: 41234,
+}));
 ```
 
-## Support
+The second argument of the `UdpAdapter` constructor is an `options` object. This object may consist of seven members:
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+<table>
+  <tr>
+    <td><code>type</code></td>
+    <td>Either <code>udp4</code> or <code>udp6</code> (default: <code>udp4</code>)</td>
+  </tr>
+  <tr>
+    <td><code>port</code></td>
+    <td>Destination port</td>
+  </tr>
+  <tr>
+    <td><code>address</code></td>
+    <td>Destination host name or IP address</td>
+  </tr>
+  <tr>
+    <td><code>socketOptions</code></td>
+    <td>dgram.SocketOptions (read more 
+      <a
+        href="https://nodejs.org/api/dgram.html#dgramcreatesocketoptions-callback"
+        rel="nofollow"
+        target="blank"
+        >here</a
+      >)</td>
+  </tr>
+  <tr>
+    <td><code>bindOptions</code></td>
+    <td>dgram.BindOptions (read more 
+      <a
+        href="https://nodejs.org/api/dgram.html#socketbindoptions-callback"
+        rel="nofollow"
+        target="blank"
+        >here</a
+      >)</td>
+  </tr>
+  <tr>
+    <td><code>multicastAddress</code></td>
+    <td>The IP multicast group address</td>
+  </tr>
+  <tr>
+    <td><code>multicastInterface</code></td>
+    <td>The local IP address associated with a network interface</td>
+  </tr>
+</table>
 
-## Stay in touch
+## Example
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+A working example is available [here](https://github.com/fugle-dev/nest-udp-adapter/tree/master/example).
 
 ## License
 
-Nest is [MIT licensed](LICENSE).
+[MIT](LICENSE)
+
+[npm-image]: https://img.shields.io/npm/v/nest-udp-adapter.svg
+[npm-url]: https://npmjs.com/package/nest-udp-adapter
